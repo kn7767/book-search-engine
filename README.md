@@ -1,2 +1,176 @@
+# Title
+Module #
+
+## Description
+Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+
+## Badges
+On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+
+## Visuals
+Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+
+## Installation
+Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+
+## Usage
+Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+
+## Support
+Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+
+## Roadmap
+If you have ideas for releases in the future, it is a good idea to list them in the README.
+
+## Contributing
+State if you are open to contributions and what your requirements are for accepting them.
+
+For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+
+You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+
+## Authors and acknowledgment
+Show your appreciation to those who have contributed to the project.
+
+## License
+None
+
+## Project status
+If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+
+
+
+
 # book-search-engine
 module 21 using MERN
+
+User Story
+AS AN avid reader
+I WANT to search for new books to read
+SO THAT I can keep a list of books to purchase
+Acceptance Criteria
+GIVEN a book search engine
+WHEN I load the search engine
+THEN I am presented with a menu with the options Search for Books and Login/Signup and an input field to search for books and a submit button
+WHEN I click on the Search for Books menu option
+THEN I am presented with an input field to search for books and a submit button
+WHEN I am not logged in and enter a search term in the input field and click the submit button
+THEN I am presented with several search results, each featuring a book’s title, author, description, image, and a link to that book on the Google Books site
+WHEN I click on the Login/Signup menu option
+THEN a modal appears on the screen with a toggle between the option to log in or sign up
+WHEN the toggle is set to Signup
+THEN I am presented with three inputs for a username, an email address, and a password, and a signup button
+WHEN the toggle is set to Login
+THEN I am presented with two inputs for an email address and a password and login button
+WHEN I enter a valid email address and create a password and click on the signup button
+THEN my user account is created and I am logged in to the site
+WHEN I enter my account’s email address and password and click on the login button
+THEN I the modal closes and I am logged in to the site
+WHEN I am logged in to the site
+THEN the menu options change to Search for Books, an option to see my saved books, and Logout
+WHEN I am logged in and enter a search term in the input field and click the submit button
+THEN I am presented with several search results, each featuring a book’s title, author, description, image, and a link to that book on the Google Books site and a button to save a book to my account
+WHEN I click on the Save button on a book
+THEN that book’s information is saved to my account
+WHEN I click on the option to see my saved books
+THEN I am presented with all of the books I have saved to my account, each featuring the book’s title, author, description, image, and a link to that book on the Google Books site and a button to remove a book from my account
+WHEN I click on the Remove button on a book
+THEN that book is deleted from my saved books list
+WHEN I click on the Logout button
+THEN I am logged out of the site and presented with a menu with the options Search for Books and Login/Signup a
+
+
+typeDefs.js: Define the necessary Query and Mutation types:
+
+Query type:
+
+me: Which returns a User type.
+Mutation type:
+
+login: Accepts an email and password as parameters; returns an Auth type.
+
+addUser: Accepts a username, email, and password as parameters; returns an Auth type.
+
+saveBook: Accepts a book author's array, description, title, bookId, image, and link as parameters; returns a User type. (Look into creating what's known as an input type to handle all of these parameters!)
+
+removeBook: Accepts a book's bookId as a parameter; returns a User type.
+
+User type:
+
+_id
+
+username
+
+email
+
+bookCount
+
+savedBooks (This will be an array of the Book type.)
+
+Book type:
+
+bookId (Not the _id, but the book's id value returned from Google's Book API.)
+
+authors (An array of strings, as there may be more than one author.)
+
+description
+
+title
+
+image
+
+link
+
+Auth type:
+
+token
+
+user (References the User type.)
+
+Front-End Specifications
+You'll need to create the following front-end files:
+
+queries.js: This will hold the query GET_ME, which will execute the me query set up using Apollo Server.
+
+mutations.js:
+
+LOGIN_USER will execute the loginUser mutation set up using Apollo Server.
+
+ADD_USER will execute the addUser mutation.
+
+SAVE_BOOK will execute the saveBook mutation.
+
+REMOVE_BOOK will execute the removeBook mutation.
+
+Additionally, you’ll need to complete the following tasks in each of these front-end files:
+
+App.js: Create an Apollo Provider to make every request work with the Apollo server.
+
+SearchBooks.js:
+
+Use the Apollo useMutation() Hook to execute the SAVE_BOOK mutation in the handleSaveBook() function instead of the saveBook() function imported from the API file.
+
+Make sure you keep the logic for saving the book's ID to state in the try...catch block!
+
+SavedBooks.js:
+
+Remove the useEffect() Hook that sets the state for UserData.
+
+Instead, use the useQuery() Hook to execute the GET_ME query on load and save it to a variable named userData.
+
+Use the useMutation() Hook to execute the REMOVE_BOOK mutation in the handleDeleteBook() function instead of the deleteBook() function that's imported from API file. (Make sure you keep the removeBookId() function in place!)
+
+SignupForm.js: Replace the addUser() functionality imported from the API file with the ADD_USER mutation functionality.
+
+LoginForm.js: Replace the loginUser() functionality imported from the API file with the LOGIN_USER mutation functionality.
+
+
+
+
+Apollo Server recently migrated to Apollo Server 3. This major-version release impacts how Apollo Server interacts in an Express environment. To implement Apollo Server 2 as demonstrated in the activities, you MUST use the following script npm install apollo-server-express@2.15.0 to install Apollo Server 2. Alternately, to migrate to the latest version of Apollo Server, please refer to the Apollo Server Docs on Migrating to Apollo Server 3Links to an external site. and Apollo Server Docs on Implementing Apollo Server Express with v3Links to an external site.. Note that if you are using Apollo Server 3 you are required use await server.start() before calling server.applyMiddleware.
+
+Schemas directory:
+
+index.js: Export your typeDefs and resolvers.
+
+resolvers.js: Define the query and mutation functionality to work with the Mongoose models.
